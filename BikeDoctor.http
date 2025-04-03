@@ -1,0 +1,6 @@
+@BikeDoctor_HostAddress = http://localhost:5219
+
+GET {{BikeDoctor_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
