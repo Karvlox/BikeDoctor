@@ -24,14 +24,13 @@ namespace BikeDoctor.Migrations
 
             modelBuilder.Entity("BikeDoctor.Models.Client", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("CI")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Age")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CI")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CI"));
+
+                    b.Property<int>("Age")
                         .HasColumnType("integer");
 
                     b.Property<string>("Gender")
@@ -49,45 +48,57 @@ namespace BikeDoctor.Migrations
                     b.Property<int>("NumberPhone")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("CI");
 
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("BikeDoctor.Models.Staff", b =>
+            modelBuilder.Entity("BikeDoctor.Models.Motorcycle", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CI")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Gender")
+                    b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("NumberPhone")
+                    b.Property<int>("ClientCI")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LicensePlateNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Model")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Staffs");
+                    b.HasIndex("ClientCI");
+
+                    b.ToTable("Motorcycles");
+                });
+
+            modelBuilder.Entity("BikeDoctor.Models.Motorcycle", b =>
+                {
+                    b.HasOne("BikeDoctor.Models.Client", "Client")
+                        .WithMany("Motorcycles")
+                        .HasForeignKey("ClientCI")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("BikeDoctor.Models.Client", b =>
+                {
+                    b.Navigation("Motorcycles");
                 });
 #pragma warning restore 612, 618
         }

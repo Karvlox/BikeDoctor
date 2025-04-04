@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BikeDoctor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ebd4e8ea7f2e570c4869ba28a7262d786431c5e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45c611df55f7f65f4c7257eb465d6ba712369ae2")]
 [assembly: System.Reflection.AssemblyProductAttribute("BikeDoctor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BikeDoctor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
