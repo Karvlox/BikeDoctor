@@ -23,18 +23,7 @@ public class ClientController : ControllerBase
         return Ok(clients);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Client>> GetClientById(Guid id)
-    {
-        var client = await _clientService.GetClientByIdAsync(id);
-        if (client == null)
-        {
-            return NotFound();
-        }
-        return Ok(client);
-    }
-
-    [HttpGet("ci/{ci}")]
+    [HttpGet("{ci}")]
     public async Task<ActionResult<Client>> GetClientByCI(int ci)
     {
         var client = await _clientService.GetClientByCIAsync(ci);
@@ -59,14 +48,19 @@ public class ClientController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Client>> CreateClient([FromBody] Client client)
     {
+        if (client.CI <= 7)
+        {
+            return BadRequest("El CI es obligatorio y debe ser un valor válido.");
+        }
+
         await _clientService.AddClientAsync(client);
-        return CreatedAtAction(nameof(GetClientById), new { id = client.Id }, client);
+        return CreatedAtAction(nameof(GetClientByCI), new { ci = client.CI }, client);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateClient(Guid id, [FromBody] Client client)
+    [HttpPut("{ci}")]
+    public async Task<IActionResult> UpdateClient(int ci, [FromBody] Client client)
     {
-        if (id != client.Id)
+        if (ci != client.CI)
         {
             return BadRequest();
         }
@@ -74,46 +68,10 @@ public class ClientController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("ci/{ci}")]
-    public async Task<IActionResult> UpdateClientByCI(int ci, [FromBody] Client client)
+    [HttpDelete("{ci}")]
+    public async Task<IActionResult> DeleteClient(int ci)
     {
-        try
-        {
-            if (ci != client.CI)
-            {
-                return BadRequest("CI in route must match CI in request body");
-            }
-
-            await _clientService.UpdateClientByCIAsync(ci, client);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            if (ex.Message.Contains("not found"))
-            {
-                return NotFound(ex.Message);
-            }
-            return StatusCode(500, "An error occurred while updating the client");
-        }
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteClient(Guid id)
-    {
-        await _clientService.DeleteClientAsync(id);
-        return NoContent();
-    }
-
-    [HttpDelete("ci/{ci}")]
-    public async Task<IActionResult> DeleteClientByCI(int ci)
-    {
-        var client = await _clientService.GetClientByCIAsync(ci);
-        if (client == null)
-        {
-            return NotFound($"Client with CI {ci} not found");
-        }
-        
-        await _clientService.DeleteClientByCIAsync(ci);
+        await _clientService.DeleteClientAsync(ci);
         return NoContent();
     }
 }
