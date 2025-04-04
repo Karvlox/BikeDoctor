@@ -4,12 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models; 
 using BikeDoctor.Repository;
 using BikeDoctor.Service;
-using BankDB.Repositories;
+using BikeDoctor.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Agregar servicios al contenedor
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 
 // Configurar el DbContext con la cadena de conexión desde appsettings.json
 builder.Services.AddDbContext<BikeDoctorContext>(options =>
@@ -20,6 +24,8 @@ builder.Services.AddDbContext<BikeDoctorContext>(options =>
 // Configuración de Repositories y Services
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
+builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 
 // Agregar Swagger
 builder.Services.AddEndpointsApiExplorer();

@@ -17,11 +17,6 @@ public class ClientService : IClientService
         return await _clientRepository.GetAllClientsAsync();
     }
 
-    public async Task<Client> GetClientByIdAsync(Guid id)
-    {
-        return await _clientRepository.GetClientByIdAsync(id);
-    }
-
     public async Task<Client> GetClientByCIAsync(int ci)
     {
         return await _clientRepository.GetClientByCIAsync(ci);
@@ -42,31 +37,8 @@ public class ClientService : IClientService
         await _clientRepository.UpdateClientAsync(client);
     }
 
-    public async Task UpdateClientByCIAsync(int ci, Client client)
+    public async Task DeleteClientAsync(int ci)
     {
-        var existingClient = await _clientRepository.GetClientByCIAsync(ci);
-        if (existingClient == null)
-        {
-            throw new Exception($"Client with CI {ci} not found");
-        }
-        
-        existingClient.Name = client.Name;
-        existingClient.LastName = client.LastName;
-        existingClient.CI = client.CI;
-        existingClient.Age = client.Age;
-        existingClient.NumberPhone = client.NumberPhone;
-        existingClient.Gender = client.Gender;
-
-        await _clientRepository.UpdateClientAsync(existingClient);
-    }
-
-    public async Task DeleteClientAsync(Guid id)
-    {
-        await _clientRepository.DeleteClientAsync(id);
-    }
-
-    public async Task DeleteClientByCIAsync(int ci)
-    {
-        await _clientRepository.DeleteClientByCIAsync(ci);
+        await _clientRepository.DeleteClientAsync(ci);
     }
 }
