@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\Proyecto de gado\\BikeDoctor\\BikeDoctor.csproj": {}
+    "D:\\Projects\\Git\\BikeDoctor\\BikeDoctor.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\Proyecto de gado\\BikeDoctor\\BikeDoctor.csproj": {
+    "D:\\Projects\\Git\\BikeDoctor\\BikeDoctor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Proyecto de gado\\BikeDoctor\\BikeDoctor.csproj",
+        "projectUniqueName": "D:\\Projects\\Git\\BikeDoctor\\BikeDoctor.csproj",
         "projectName": "BikeDoctor",
-        "projectPath": "D:\\Projects\\Proyecto de gado\\BikeDoctor\\BikeDoctor.csproj",
+        "projectPath": "D:\\Projects\\Git\\BikeDoctor\\BikeDoctor.csproj",
         "packagesPath": "C:\\Users\\Karvlox\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Proyecto de gado\\BikeDoctor\\obj\\",
+        "outputPath": "D:\\Projects\\Git\\BikeDoctor\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

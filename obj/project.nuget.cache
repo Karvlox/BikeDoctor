@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "e8lwiTrdGsE=",
+  "dgSpecHash": "9DTJN/NIuvA=",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Proyecto de gado\\BikeDoctor\\BikeDoctor.csproj",
+  "projectFilePath": "D:\\Projects\\Git\\BikeDoctor\\BikeDoctor.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Karvlox\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Karvlox\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.0\\microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
