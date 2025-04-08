@@ -7,7 +7,6 @@ public class Reception
     public int CliendCI { get; set;}
     public string MotorcycleLicensePlate { get; set;}
     public int EmployeeCI { get; set;}
-    public List<string> Reasons { get; set;}
-    public List<string> Images { get; set;}
-    
+    public ICollection<string>? Reasons { get; set;}
+    public ICollection<string>? Images { get; set;}
 }
