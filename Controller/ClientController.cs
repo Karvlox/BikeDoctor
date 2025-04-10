@@ -1,9 +1,9 @@
-using BikeDoctor.Models;
-using BikeDoctor.Service;
-using Microsoft.AspNetCore.Mvc;
-
 namespace BikeDoctor.Controller;
 
+using BikeDoctor.Models;
+using BikeDoctor.Service;
+using BikeDoctor.Validations;
+using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -48,24 +48,33 @@ public class ClientController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Client>> CreateClient([FromBody] Client client)
     {
-        if (client.CI <= 7)
+        try
         {
-            return BadRequest("El CI es obligatorio y debe ser un valor válido.");
+            await _clientService.AddClientAsync(client);
+            return CreatedAtAction(nameof(GetClientByCI), new { ci = client.CI }, client);
         }
-
-        await _clientService.AddClientAsync(client);
-        return CreatedAtAction(nameof(GetClientByCI), new { ci = client.CI }, client);
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("{ci}")]
     public async Task<IActionResult> UpdateClient(int ci, [FromBody] Client client)
     {
-        if (ci != client.CI)
+        try
         {
-            return BadRequest();
+            if (ci != client.CI)
+            {
+                return BadRequest("El CI de la URL no coincide con el del cuerpo de la solicitud.");
+            }
+            await _clientService.UpdateClientAsync(client);
+            return NoContent();
         }
-        await _clientService.UpdateClientAsync(client);
-        return NoContent();
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{ci}")]

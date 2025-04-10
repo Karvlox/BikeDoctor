@@ -2,6 +2,7 @@ namespace BikeDoctor.Service;
 
 using BikeDoctor.Repository;
 using BikeDoctor.Models;
+using BikeDoctor.Validations;
 
 public class ClientService : IClientService
 {
@@ -29,11 +30,13 @@ public class ClientService : IClientService
 
     public async Task AddClientAsync(Client client)
     {
+        ClientValidator.ValidateClientForAddOrUpdate(client);
         await _clientRepository.AddClientAsync(client);
     }
 
     public async Task UpdateClientAsync(Client client)
     {
+        ClientValidator.ValidateClientForAddOrUpdate(client);
         await _clientRepository.UpdateClientAsync(client);
     }
 

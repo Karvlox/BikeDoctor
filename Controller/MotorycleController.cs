@@ -24,7 +24,7 @@ public class MotorcycleController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ModelBinderAttribute>> GetMotorcycleById(Guid id)
+    public async Task<ActionResult<Motorcycle>> GetMotorcycleById(Guid id)
     {
         var motorcycle = await _motorcycleService.GetMotorcycleByIdAsync(id);
         if (motorcycle == null)
@@ -48,19 +48,33 @@ public class MotorcycleController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Motorcycle>> CreateMotocycle([FromBody] Motorcycle motorcycle)
     {
-        await _motorcycleService.AddMotorcycleAsync(motorcycle);
-        return CreatedAtAction(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
+        try
+        {
+            await _motorcycleService.AddMotorcycleAsync(motorcycle);
+            return CreatedAtAction(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMotorcycle(Guid id, [FromBody] Motorcycle motorcycle)
     {
-        if (id != motorcycle.Id)
+        try
         {
-            return BadRequest();
+            if (id != motorcycle.Id)
+            {
+                return BadRequest("El ID en la URL no coincide con el ID en el cuerpo de la solicitud.");
+            }
+            await _motorcycleService.UpdateMotorcycletAsync(motorcycle);
+            return NoContent();
         }
-        await _motorcycleService.UpdateMotorcycletAsync(motorcycle);
-        return NoContent();
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("licensePlate/{licensePlate}")]
@@ -70,11 +84,14 @@ public class MotorcycleController : ControllerBase
         {
             if (licensePlate != motorcycle.LicensePlateNumber)
             {
-                return BadRequest("License Plate Number in route must match License Plate Number in request body");
+                return BadRequest("El número de matrícula en la URL no coincide con el del cuerpo de la solicitud.");
             }
-
             await _motorcycleService.UpdateMotorcycleByLicensePlateNumberAsync(licensePlate, motorcycle);
             return NoContent();
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -82,7 +99,7 @@ public class MotorcycleController : ControllerBase
             {
                 return NotFound(ex.Message);
             }
-            return StatusCode(500, "An error occurred while updating the motorcyle");
+            return StatusCode(500, "Ocurrió un error al actualizar la motocicleta.");
         }
     }
 
@@ -96,10 +113,10 @@ public class MotorcycleController : ControllerBase
     [HttpDelete("licensePlate/{licensePlate}")]
     public async Task<IActionResult> DeleteMotorcycleByLicensePlateNumber(string licensePlate)
     {
-        var motorycle = await _motorcycleService.GetMotorcycleByLicensePlateNumberAsync(licensePlate);
-        if (motorycle == null)
+        var motorcycle = await _motorcycleService.GetMotorcycleByLicensePlateNumberAsync(licensePlate);
+        if (motorcycle == null)
         {
-            return NotFound($"Motorcycle with license plate number {licensePlate} not found");
+            return NotFound($"No se encontró una motocicleta con el número de matrícula {licensePlate}.");
         }
         
         await _motorcycleService.DeleteMotorcycleByLicensePlateNumberAsync(licensePlate);

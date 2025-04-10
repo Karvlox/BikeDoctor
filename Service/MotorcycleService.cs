@@ -2,6 +2,7 @@ namespace BikeDoctor.Service;
 
 using BikeDoctor.Models;
 using BikeDoctor.Repository;
+using BikeDoctor.Validations;
 
 public class MotorcycleService : IMotorcycleService
 {
@@ -29,16 +30,19 @@ public class MotorcycleService : IMotorcycleService
 
     public async Task AddMotorcycleAsync(Motorcycle motorcycle)
     {
+        MotorcycleValidator.ValidateMotorcycle(motorcycle);
         await _motorcycleRepository.AddMotorcycleAsync(motorcycle);
     }
 
     public async Task UpdateMotorcycletAsync(Motorcycle motorcycle)
     {
+        MotorcycleValidator.ValidateMotorcycle(motorcycle);
         await _motorcycleRepository.UpdateMotorcycleAsync(motorcycle);
     }
 
     public async Task UpdateMotorcycleByLicensePlateNumberAsync(string licensePlateNumber, Motorcycle motorcycle)
     {
+        MotorcycleValidator.ValidateMotorcycle(motorcycle);
         var existingMotorcycle = await _motorcycleRepository.GetMotorcycleByLicensePlateNumberAsync(licensePlateNumber);
         if (existingMotorcycle == null)
         {
@@ -49,6 +53,7 @@ public class MotorcycleService : IMotorcycleService
         existingMotorcycle.Model = motorcycle.Model;
         existingMotorcycle.LicensePlateNumber = motorcycle.LicensePlateNumber;
         existingMotorcycle.Color = motorcycle.Color;
+        existingMotorcycle.ClientCI = motorcycle.ClientCI;
 
         await _motorcycleRepository.UpdateMotorcycleAsync(existingMotorcycle);
     }
