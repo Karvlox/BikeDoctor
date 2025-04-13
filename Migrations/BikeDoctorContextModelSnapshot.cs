@@ -81,6 +81,8 @@ namespace BikeDoctor.Migrations
 
                     b.HasIndex("MotorcycleId");
 
+                    b.HasIndex("MotorcycleLicensePlate");
+
                     b.ToTable("CostApprovals");
                 });
 
@@ -115,6 +117,8 @@ namespace BikeDoctor.Migrations
 
                     b.HasIndex("MotorcycleId");
 
+                    b.HasIndex("MotorcycleLicensePlate");
+
                     b.ToTable("Deliveries");
                 });
 
@@ -138,6 +142,10 @@ namespace BikeDoctor.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientCI");
+
+                    b.HasIndex("MotorcycleLicensePlate");
 
                     b.ToTable("Diagnoses");
                 });
@@ -202,6 +210,8 @@ namespace BikeDoctor.Migrations
 
                     b.HasIndex("MotorcycleId");
 
+                    b.HasIndex("MotorcycleLicensePlate");
+
                     b.ToTable("QualityControls");
                 });
 
@@ -231,6 +241,10 @@ namespace BikeDoctor.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CliendCI");
+
+                    b.HasIndex("MotorcycleLicensePlate");
 
                     b.ToTable("Receptions");
                 });
@@ -263,6 +277,8 @@ namespace BikeDoctor.Migrations
 
                     b.HasIndex("MotorcycleId");
 
+                    b.HasIndex("MotorcycleLicensePlate");
+
                     b.ToTable("Repairs");
                 });
 
@@ -286,6 +302,10 @@ namespace BikeDoctor.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CliendCI");
+
+                    b.HasIndex("MotorcycleLicensePlate");
 
                     b.ToTable("SpareParts");
                 });

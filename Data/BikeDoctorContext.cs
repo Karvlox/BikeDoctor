@@ -1,13 +1,12 @@
 namespace BikeDoctor.Data;
 
-using Microsoft.EntityFrameworkCore;
 using BikeDoctor.Models;
+using Microsoft.EntityFrameworkCore;
 
 public class BikeDoctorContext : DbContext
 {
-    public BikeDoctorContext(DbContextOptions<BikeDoctorContext> options) : base(options)
-    {
-    }
+    public BikeDoctorContext(DbContextOptions<BikeDoctorContext> options)
+        : base(options) { }
 
     public DbSet<Client> Clients { get; set; }
     public DbSet<Motorcycle> Motorcycles { get; set; }
@@ -19,16 +18,14 @@ public class BikeDoctorContext : DbContext
     public DbSet<QualityControl> QualityControls { get; set; }
     public DbSet<Delivery> Deliveries { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Client>()
-            .HasKey(c => c.CI);
+        modelBuilder.Entity<Client>().HasKey(c => c.CI);
 
-        modelBuilder.Entity<Motorcycle>()
-            .HasKey(m => m.Id);
+        modelBuilder.Entity<Motorcycle>().HasKey(m => m.Id);
 
-        modelBuilder.Entity<Motorcycle>()
+        modelBuilder
+            .Entity<Motorcycle>()
             .HasOne(m => m.Client)
             .WithMany(c => c.Motorcycles)
             .HasForeignKey(m => m.ClientCI)
@@ -36,76 +33,121 @@ public class BikeDoctorContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // Reception
-        modelBuilder.Entity<Reception>()
-            .HasKey(r => r.Id);
-        modelBuilder.Entity<Reception>()
+        modelBuilder.Entity<Reception>().HasKey(r => r.Id);
+        modelBuilder
+            .Entity<Reception>()
             .Property(r => r.Reasons)
             .HasConversion(
                 v => string.Join(";", v),
-                v => v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
-        modelBuilder.Entity<Reception>()
+                v => v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList()
+            );
+        modelBuilder
+            .Entity<Reception>()
             .Property(r => r.Images)
             .HasConversion(
                 v => string.Join(";", v),
-                v => v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
+                v => v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList()
+            );
 
         // Diagnosis
-        modelBuilder.Entity<Diagnosis>()
-            .HasKey(d => d.Id);
-        modelBuilder.Entity<Diagnosis>()
-            .OwnsMany(d => d.ListDiagnostics, a =>
-            {
-                a.WithOwner().HasForeignKey("DiagnosisId");
-                a.Property<int>("Id");
-                a.HasKey("Id");
-            });
+        modelBuilder.Entity<Diagnosis>().HasKey(d => d.Id);
+        modelBuilder
+            .Entity<Diagnosis>()
+            .OwnsMany(
+                d => d.ListDiagnostics,
+                a =>
+                {
+                    a.WithOwner().HasForeignKey("DiagnosisId");
+                    a.Property<int>("Id");
+                    a.HasKey("Id");
+                }
+            );
 
         // SpareParts
-        modelBuilder.Entity<SpareParts>()
-            .HasKey(s => s.Id);
-        modelBuilder.Entity<SpareParts>()
-            .OwnsMany(s => s.ListSpareParts, a =>
-            {
-                a.WithOwner().HasForeignKey("SparePartsId");
-                a.Property<int>("Id");
-                a.HasKey("Id");
-            });
+        modelBuilder.Entity<SpareParts>().HasKey(s => s.Id);
+        modelBuilder
+            .Entity<SpareParts>()
+            .OwnsMany(
+                s => s.ListSpareParts,
+                a =>
+                {
+                    a.WithOwner().HasForeignKey("SparePartsId");
+                    a.Property<int>("Id");
+                    a.HasKey("Id");
+                }
+            );
 
         // CostApproval
-        modelBuilder.Entity<CostApproval>()
-            .HasKey(ca => ca.Id);
-        modelBuilder.Entity<CostApproval>()
-            .OwnsMany(ca => ca.ListLaborCosts, a =>
-            {
-                a.WithOwner().HasForeignKey("CostApprovalId");
-                a.Property<int>("Id");
-                a.HasKey("Id");
-            });
+        modelBuilder.Entity<CostApproval>().HasKey(ca => ca.Id);
+        modelBuilder
+            .Entity<CostApproval>()
+            .OwnsMany(
+                ca => ca.ListLaborCosts,
+                a =>
+                {
+                    a.WithOwner().HasForeignKey("CostApprovalId");
+                    a.Property<int>("Id");
+                    a.HasKey("Id");
+                }
+            );
 
         // Repair
-        modelBuilder.Entity<Repair>()
-            .HasKey(r => r.Id);
-        modelBuilder.Entity<Repair>()
-            .OwnsMany(r => r.ListReparations, a =>
-            {
-                a.WithOwner().HasForeignKey("RepairId");
-                a.Property<int>("Id");
-                a.HasKey("Id");
-            });
+        modelBuilder.Entity<Repair>().HasKey(r => r.Id);
+        modelBuilder
+            .Entity<Repair>()
+            .OwnsMany(
+                r => r.ListReparations,
+                a =>
+                {
+                    a.WithOwner().HasForeignKey("RepairId");
+                    a.Property<int>("Id");
+                    a.HasKey("Id");
+                }
+            );
 
         // QualityControl
-        modelBuilder.Entity<QualityControl>()
-            .HasKey(q => q.Id);
-        modelBuilder.Entity<QualityControl>()
-            .OwnsMany(q => q.ListControls, a =>
-            {
-                a.WithOwner().HasForeignKey("QualityControlId");
-                a.Property<int>("Id");
-                a.HasKey("Id");
-            });
+        modelBuilder.Entity<QualityControl>().HasKey(q => q.Id);
+        modelBuilder
+            .Entity<QualityControl>()
+            .OwnsMany(
+                q => q.ListControls,
+                a =>
+                {
+                    a.WithOwner().HasForeignKey("QualityControlId");
+                    a.Property<int>("Id");
+                    a.HasKey("Id");
+                }
+            );
 
         // Delivery
-        modelBuilder.Entity<Delivery>()
-            .HasKey(d => d.Id);
+        modelBuilder.Entity<Delivery>().HasKey(d => d.Id);
+
+        // Reception for searching
+        modelBuilder.Entity<Reception>().HasIndex(r => r.CliendCI);
+        modelBuilder.Entity<Reception>().HasIndex(r => r.MotorcycleLicensePlate);
+
+        // Diagnosis for searching
+        modelBuilder.Entity<Diagnosis>().HasIndex(r => r.ClientCI);
+        modelBuilder.Entity<Diagnosis>().HasIndex(r => r.MotorcycleLicensePlate);
+
+        // SpareParts for searching
+        modelBuilder.Entity<SpareParts>().HasIndex(r => r.CliendCI);
+        modelBuilder.Entity<SpareParts>().HasIndex(r => r.MotorcycleLicensePlate);
+
+        // CostApprovals for searching
+        modelBuilder.Entity<CostApproval>().HasIndex(r => r.ClientCI);
+        modelBuilder.Entity<CostApproval>().HasIndex(r => r.MotorcycleLicensePlate);
+
+        // Repair for searching
+        modelBuilder.Entity<Repair>().HasIndex(r => r.ClientCI);
+        modelBuilder.Entity<Repair>().HasIndex(r => r.MotorcycleLicensePlate);
+
+        // QualityControl for searching
+        modelBuilder.Entity<QualityControl>().HasIndex(r => r.ClientCI);
+        modelBuilder.Entity<QualityControl>().HasIndex(r => r.MotorcycleLicensePlate);
+
+        // Delivery for searching
+        modelBuilder.Entity<Delivery>().HasIndex(r => r.ClientCI);
+        modelBuilder.Entity<Delivery>().HasIndex(r => r.MotorcycleLicensePlate);
     }
 }
