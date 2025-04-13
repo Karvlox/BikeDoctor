@@ -27,6 +27,22 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
 builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 
+// Configuracion de Respositories y services del board de seguimiento
+builder.Services.AddScoped<IReceptionRepository, ReceptionRepository>();
+builder.Services.AddScoped<IReceptionService, ReceptionService>();
+builder.Services.AddScoped<IDiagnosisRepository, DiagnosisRepository>();
+builder.Services.AddScoped<IDiagnosisService, DiagnosisService>();
+builder.Services.AddScoped<ISparePartsRepository, SparePartsRepository>();
+builder.Services.AddScoped<ISparePartsService, SparePartsService>();
+builder.Services.AddScoped<ICostApprovalRepository, CostApprovalRepository>();
+builder.Services.AddScoped<ICostApprovalService, CostApprovalService>();
+builder.Services.AddScoped<IRepairRepository, RepairRepository>();
+builder.Services.AddScoped<IRepairService, RepairService>();
+builder.Services.AddScoped<IQualityControlRepository, QualityControlRepository>();
+builder.Services.AddScoped<IQualityControlService, QualityControlService>();
+builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
+builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+
 // Agregar Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
