@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using ChatBotPOC.Models;
+using BikeDoctor.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatBotPOC.Controllers
