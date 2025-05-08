@@ -123,7 +123,7 @@ public class BikeDoctorContext : DbContext
         modelBuilder.Entity<Delivery>().HasKey(d => d.Id);
 
         // Reception for searching
-        modelBuilder.Entity<Reception>().HasIndex(r => r.CliendCI);
+        modelBuilder.Entity<Reception>().HasIndex(r => r.ClientCI);
         modelBuilder.Entity<Reception>().HasIndex(r => r.MotorcycleLicensePlate);
 
         // Diagnosis for searching

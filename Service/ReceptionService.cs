@@ -26,7 +26,7 @@ public class ReceptionService : GenericService<Reception, Guid>, IReceptionServi
 
     private void ValidateReception(Reception reception)
     {
-        if (reception.CliendCI <= 0)
+        if (reception.ClientCI <= 0)
             throw new ArgumentException("El CI del cliente es obligatorio.");
         if (string.IsNullOrWhiteSpace(reception.MotorcycleLicensePlate))
             throw new ArgumentException("La placa de la motocicleta es obligatoria.");

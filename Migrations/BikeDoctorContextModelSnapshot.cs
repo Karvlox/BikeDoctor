@@ -221,7 +221,7 @@ namespace BikeDoctor.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("CliendCI")
+                    b.Property<int>("ClientCI")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Date")
@@ -242,7 +242,7 @@ namespace BikeDoctor.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CliendCI");
+                    b.HasIndex("ClientCI");
 
                     b.HasIndex("MotorcycleLicensePlate");
 
