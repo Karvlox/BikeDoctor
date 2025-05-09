@@ -8,6 +8,7 @@ public class Delivery
     public string MotorcycleLicensePlate { get; set; }
     public int EmployeeCI { get; set; }
     public bool SurveyCompleted { get; set; }
+    public bool Reviewed { get; set; } = false;
 
     public Client? Client { get; set; }
     public Motorcycle? Motorcycle { get; set; }

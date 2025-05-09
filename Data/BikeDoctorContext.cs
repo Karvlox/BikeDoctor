@@ -17,11 +17,14 @@ public class BikeDoctorContext : DbContext
     public DbSet<Repair> Repairs { get; set; }
     public DbSet<QualityControl> QualityControls { get; set; }
     public DbSet<Delivery> Deliveries { get; set; }
+    public DbSet<FlowAttention> FlowAttentions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Client
         modelBuilder.Entity<Client>().HasKey(c => c.CI);
 
+        // Motorcycle
         modelBuilder.Entity<Motorcycle>().HasKey(m => m.Id);
 
         modelBuilder
@@ -122,6 +125,37 @@ public class BikeDoctorContext : DbContext
         // Delivery
         modelBuilder.Entity<Delivery>().HasKey(d => d.Id);
 
+        // FlowAttention
+        modelBuilder.Entity<FlowAttention>().HasKey(fa => fa.Id);
+        modelBuilder.Entity<FlowAttention>()
+            .HasOne<Reception>()
+            .WithMany()
+            .HasForeignKey(fa => fa.ReceptionID);
+        modelBuilder.Entity<FlowAttention>()
+            .HasOne<Diagnosis>()
+            .WithMany()
+            .HasForeignKey(fa => fa.DiagnosisID);
+        modelBuilder.Entity<FlowAttention>()
+            .HasOne<SpareParts>()
+            .WithMany()
+            .HasForeignKey(fa => fa.SparePartsID);
+        modelBuilder.Entity<FlowAttention>()
+            .HasOne<CostApproval>()
+            .WithMany()
+            .HasForeignKey(fa => fa.CostApprovalID);
+        modelBuilder.Entity<FlowAttention>()
+            .HasOne<Repair>()
+            .WithMany()
+            .HasForeignKey(fa => fa.RepairID);
+        modelBuilder.Entity<FlowAttention>()
+            .HasOne<QualityControl>()
+            .WithMany()
+            .HasForeignKey(fa => fa.QualityControlID);
+        modelBuilder.Entity<FlowAttention>()
+            .HasOne<Delivery>()
+            .WithMany()
+            .HasForeignKey(fa => fa.DeliveryID);
+
         // Reception for searching
         modelBuilder.Entity<Reception>().HasIndex(r => r.ClientCI);
         modelBuilder.Entity<Reception>().HasIndex(r => r.MotorcycleLicensePlate);
@@ -131,7 +165,7 @@ public class BikeDoctorContext : DbContext
         modelBuilder.Entity<Diagnosis>().HasIndex(r => r.MotorcycleLicensePlate);
 
         // SpareParts for searching
-        modelBuilder.Entity<SpareParts>().HasIndex(r => r.CliendCI);
+        modelBuilder.Entity<SpareParts>().HasIndex(r => r.ClientCI);
         modelBuilder.Entity<SpareParts>().HasIndex(r => r.MotorcycleLicensePlate);
 
         // CostApprovals for searching

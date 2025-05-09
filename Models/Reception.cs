@@ -9,4 +9,5 @@ public class Reception
     public int EmployeeCI { get; set;}
     public ICollection<string>? Reasons { get; set;}
     public ICollection<string>? Images { get; set;}
+    public bool Reviewed { get; set; } = false;
 }
