@@ -21,7 +21,7 @@ builder.Services.AddDbContext<BikeDoctorContext>(options =>
            .EnableSensitiveDataLogging()
            .LogTo(Console.WriteLine, LogLevel.Information)); 
 
-// Configuración de Repositories y Services
+// Configuración de Repositories y Services de Clientes y Motocicletas
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
@@ -42,6 +42,10 @@ builder.Services.AddScoped<IQualityControlRepository, QualityControlRepository>(
 builder.Services.AddScoped<IQualityControlService, QualityControlService>();
 builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+
+// Configuración de Repositories y Services del Tablero general del board
+builder.Services.AddScoped<IFlowAttentionRepository, FlowAttentionRepository>();
+builder.Services.AddScoped<IFlowAttentionService, FlowAttentionService>();
 
 // Agregar Swagger
 builder.Services.AddEndpointsApiExplorer();

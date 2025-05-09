@@ -75,6 +75,9 @@ namespace BikeDoctor.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("Reviewed")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientCI");
@@ -107,6 +110,9 @@ namespace BikeDoctor.Migrations
                     b.Property<string>("MotorcycleLicensePlate")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("Reviewed")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("SurveyCompleted")
                         .HasColumnType("boolean");
@@ -141,6 +147,9 @@ namespace BikeDoctor.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("Reviewed")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientCI");
@@ -148,6 +157,62 @@ namespace BikeDoctor.Migrations
                     b.HasIndex("MotorcycleLicensePlate");
 
                     b.ToTable("Diagnoses");
+                });
+
+            modelBuilder.Entity("BikeDoctor.Models.FlowAttention", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ClientCI")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("CostApprovalID")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DeliveryID")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DiagnosisID")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("EmployeeCI")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MotorcycleLicensePlate")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("QualityControlID")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ReceptionID")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RepairID")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SparePartsID")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CostApprovalID");
+
+                    b.HasIndex("DeliveryID");
+
+                    b.HasIndex("DiagnosisID");
+
+                    b.HasIndex("QualityControlID");
+
+                    b.HasIndex("ReceptionID");
+
+                    b.HasIndex("RepairID");
+
+                    b.HasIndex("SparePartsID");
+
+                    b.ToTable("FlowAttentions");
                 });
 
             modelBuilder.Entity("BikeDoctor.Models.Motorcycle", b =>
@@ -204,6 +269,9 @@ namespace BikeDoctor.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("Reviewed")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientCI");
@@ -240,6 +308,9 @@ namespace BikeDoctor.Migrations
                     b.Property<string>("Reasons")
                         .HasColumnType("text");
 
+                    b.Property<bool>("Reviewed")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientCI");
@@ -271,6 +342,9 @@ namespace BikeDoctor.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("Reviewed")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientCI");
@@ -288,7 +362,7 @@ namespace BikeDoctor.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("CliendCI")
+                    b.Property<int>("ClientCI")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Date")
@@ -301,9 +375,12 @@ namespace BikeDoctor.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("Reviewed")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CliendCI");
+                    b.HasIndex("ClientCI");
 
                     b.HasIndex("MotorcycleLicensePlate");
 
@@ -417,6 +494,51 @@ namespace BikeDoctor.Migrations
                         });
 
                     b.Navigation("ListDiagnostics");
+                });
+
+            modelBuilder.Entity("BikeDoctor.Models.FlowAttention", b =>
+                {
+                    b.HasOne("BikeDoctor.Models.CostApproval", null)
+                        .WithMany()
+                        .HasForeignKey("CostApprovalID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BikeDoctor.Models.Delivery", null)
+                        .WithMany()
+                        .HasForeignKey("DeliveryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BikeDoctor.Models.Diagnosis", null)
+                        .WithMany()
+                        .HasForeignKey("DiagnosisID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BikeDoctor.Models.QualityControl", null)
+                        .WithMany()
+                        .HasForeignKey("QualityControlID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BikeDoctor.Models.Reception", null)
+                        .WithMany()
+                        .HasForeignKey("ReceptionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BikeDoctor.Models.Repair", null)
+                        .WithMany()
+                        .HasForeignKey("RepairID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BikeDoctor.Models.SpareParts", null)
+                        .WithMany()
+                        .HasForeignKey("SparePartsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BikeDoctor.Models.Motorcycle", b =>

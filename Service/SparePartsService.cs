@@ -26,7 +26,7 @@ public class SparePartsService : GenericService<SpareParts, Guid>, ISparePartsSe
 
     private void ValidateSpareParts(SpareParts spareParts)
     {
-        if (spareParts.CliendCI <= 0)
+        if (spareParts.ClientCI <= 0)
             throw new ArgumentException("El CI del cliente es obligatorio.");
         if (string.IsNullOrWhiteSpace(spareParts.MotorcycleLicensePlate))
             throw new ArgumentException("La placa de la motocicleta es obligatoria.");
