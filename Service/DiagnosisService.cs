@@ -19,8 +19,6 @@ public class DiagnosisService : GenericService<Diagnosis, Guid>, IDiagnosisServi
     public override async Task UpdateAsync(Guid id, Diagnosis diagnosis)
     {
         ValidateDiagnosis(diagnosis);
-        if (id != diagnosis.Id)
-            throw new ArgumentException("El ID no coincide.");
         await base.UpdateAsync(id, diagnosis);
     }
 

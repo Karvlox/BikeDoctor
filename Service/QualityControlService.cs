@@ -19,8 +19,6 @@ public class QualityControlService : GenericService<QualityControl, Guid>, IQual
     public override async Task UpdateAsync(Guid id, QualityControl qualityControl)
     {
         ValidateQualityControl(qualityControl);
-        if (id != qualityControl.Id)
-            throw new ArgumentException("El ID no coincide.");
         await base.UpdateAsync(id, qualityControl);
     }
 

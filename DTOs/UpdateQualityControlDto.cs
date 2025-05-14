@@ -1,12 +1,13 @@
-namespace BikeDoctor.Models;
+namespace BikeDoctor.DTOs;
 
-public class Diagnosis
-{
-    public Guid Id { get; set; }
+using BikeDoctor.Models;
+
+public class UpdateQualityControlDto
+{    
     public DateTime Date { get; set; }
     public int ClientCI { get; set; }
     public string MotorcycleLicensePlate { get; set; }
     public int EmployeeCI { get; set;}
-    public ICollection<Diagnostic>? ListDiagnostics { get; set; }
+    public ICollection<Control>? ListControls { get; set; }
     public bool Reviewed { get; set; } = false;
 }

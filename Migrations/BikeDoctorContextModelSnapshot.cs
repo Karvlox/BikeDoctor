@@ -68,6 +68,9 @@ namespace BikeDoctor.Migrations
                     b.Property<int>("EmployeeCI")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ListLaborCosts")
+                        .HasColumnType("jsonb");
+
                     b.Property<Guid?>("MotorcycleId")
                         .HasColumnType("uuid");
 
@@ -142,6 +145,9 @@ namespace BikeDoctor.Migrations
 
                     b.Property<int>("EmployeeCI")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ListDiagnostics")
+                        .HasColumnType("jsonb");
 
                     b.Property<string>("MotorcycleLicensePlate")
                         .IsRequired()
@@ -262,6 +268,9 @@ namespace BikeDoctor.Migrations
                     b.Property<int>("EmployeeCI")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ListControls")
+                        .HasColumnType("jsonb");
+
                     b.Property<Guid?>("MotorcycleId")
                         .HasColumnType("uuid");
 
@@ -335,6 +344,9 @@ namespace BikeDoctor.Migrations
                     b.Property<int>("EmployeeCI")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ListReparations")
+                        .HasColumnType("jsonb");
+
                     b.Property<Guid?>("MotorcycleId")
                         .HasColumnType("uuid");
 
@@ -371,6 +383,9 @@ namespace BikeDoctor.Migrations
                     b.Property<int>("EmployeeCI")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ListSpareParts")
+                        .HasColumnType("jsonb");
+
                     b.Property<string>("MotorcycleLicensePlate")
                         .IsRequired()
                         .HasColumnType("text");
@@ -399,41 +414,7 @@ namespace BikeDoctor.Migrations
                         .WithMany()
                         .HasForeignKey("MotorcycleId");
 
-                    b.OwnsMany("BikeDoctor.Models.LaborCost", "ListLaborCosts", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("CostApprovalId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("DescriptionProduct")
-                                .HasColumnType("text");
-
-                            b1.Property<string>("NameProduct")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Price")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("CostApprovalId");
-
-                            b1.ToTable("LaborCost");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CostApprovalId");
-                        });
-
                     b.Navigation("Client");
-
-                    b.Navigation("ListLaborCosts");
 
                     b.Navigation("Motorcycle");
                 });
@@ -453,47 +434,6 @@ namespace BikeDoctor.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Motorcycle");
-                });
-
-            modelBuilder.Entity("BikeDoctor.Models.Diagnosis", b =>
-                {
-                    b.OwnsMany("BikeDoctor.Models.Diagnostic", "ListDiagnostics", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<string>("DetailOfError")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<Guid>("DiagnosisId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Error")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("ServiceType")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<int>("TimeSpent")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("DiagnosisId");
-
-                            b1.ToTable("Diagnostic");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DiagnosisId");
-                        });
-
-                    b.Navigation("ListDiagnostics");
                 });
 
             modelBuilder.Entity("BikeDoctor.Models.FlowAttention", b =>
@@ -564,38 +504,7 @@ namespace BikeDoctor.Migrations
                         .WithMany()
                         .HasForeignKey("MotorcycleId");
 
-                    b.OwnsMany("BikeDoctor.Models.Control", "ListControls", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<string>("ControlName")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("DetailsControl")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<Guid>("QualityControlId")
-                                .HasColumnType("uuid");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("QualityControlId");
-
-                            b1.ToTable("Control");
-
-                            b1.WithOwner()
-                                .HasForeignKey("QualityControlId");
-                        });
-
                     b.Navigation("Client");
-
-                    b.Navigation("ListControls");
 
                     b.Navigation("Motorcycle");
                 });
@@ -612,76 +521,9 @@ namespace BikeDoctor.Migrations
                         .WithMany()
                         .HasForeignKey("MotorcycleId");
 
-                    b.OwnsMany("BikeDoctor.Models.Reparation", "ListReparations", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<string>("DescriptionReparation")
-                                .HasColumnType("text");
-
-                            b1.Property<string>("NameReparation")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<Guid>("RepairId")
-                                .HasColumnType("uuid");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("RepairId");
-
-                            b1.ToTable("Reparation");
-
-                            b1.WithOwner()
-                                .HasForeignKey("RepairId");
-                        });
-
                     b.Navigation("Client");
 
-                    b.Navigation("ListReparations");
-
                     b.Navigation("Motorcycle");
-                });
-
-            modelBuilder.Entity("BikeDoctor.Models.SpareParts", b =>
-                {
-                    b.OwnsMany("BikeDoctor.Models.SparePart", "ListSpareParts", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<string>("DetailSparePart")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("NameSparePart")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<int>("Price")
-                                .HasColumnType("integer");
-
-                            b1.Property<Guid>("SparePartsId")
-                                .HasColumnType("uuid");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("SparePartsId");
-
-                            b1.ToTable("SparePart");
-
-                            b1.WithOwner()
-                                .HasForeignKey("SparePartsId");
-                        });
-
-                    b.Navigation("ListSpareParts");
                 });
 
             modelBuilder.Entity("BikeDoctor.Models.Client", b =>

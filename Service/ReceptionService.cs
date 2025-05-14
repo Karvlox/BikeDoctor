@@ -1,14 +1,13 @@
 namespace BikeDoctor.Service;
 
+using System.Threading.Tasks;
 using BikeDoctor.Models;
 using BikeDoctor.Repository;
-using System.Threading.Tasks;
 
 public class ReceptionService : GenericService<Reception, Guid>, IReceptionService
 {
-    public ReceptionService(IReceptionRepository repository) : base(repository)
-    {
-    }
+    public ReceptionService(IReceptionRepository repository)
+        : base(repository) { }
 
     public override async Task AddAsync(Reception reception)
     {
@@ -19,8 +18,6 @@ public class ReceptionService : GenericService<Reception, Guid>, IReceptionServi
     public override async Task UpdateAsync(Guid id, Reception reception)
     {
         ValidateReception(reception);
-        if (id != reception.Id)
-            throw new ArgumentException("El ID no coincide.");
         await base.UpdateAsync(id, reception);
     }
 
