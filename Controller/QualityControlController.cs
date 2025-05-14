@@ -1,10 +1,11 @@
 namespace BikeDoctor.Controllers;
 
-using BikeDoctor.Models;
-using BikeDoctor.Service;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using BikeDoctor.Models;
+using BikeDoctor.DTOs;
+using BikeDoctor.Service;
+using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -56,10 +57,24 @@ public class QualityControlController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] QualityControl qualityControl)
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateQualityControlDto qualityControlDto
+    )
     {
         try
         {
+            var qualityControl = new QualityControl
+            {
+                Id = id,
+                Date = qualityControlDto.Date,
+                ClientCI = qualityControlDto.ClientCI,
+                MotorcycleLicensePlate = qualityControlDto.MotorcycleLicensePlate,
+                EmployeeCI = qualityControlDto.EmployeeCI,
+                ListControls = qualityControlDto.ListControls,
+                Reviewed = qualityControlDto.Reviewed,
+            };
+
             await _service.UpdateAsync(id, qualityControl);
             return NoContent();
         }

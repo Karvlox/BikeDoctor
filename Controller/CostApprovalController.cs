@@ -1,6 +1,7 @@
 namespace BikeDoctor.Controllers;
 
 using BikeDoctor.Models;
+using BikeDoctor.DTOs;
 using BikeDoctor.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -56,10 +57,21 @@ public class CostApprovalController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] CostApproval costApproval)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCostApprovalDto costApprovalDto)
     {
         try
         {
+            var costApproval = new CostApproval
+            {
+                Id = id,
+                Date = costApprovalDto.Date,
+                ClientCI = costApprovalDto.ClientCI,
+                MotorcycleLicensePlate = costApprovalDto.MotorcycleLicensePlate,
+                EmployeeCI = costApprovalDto.EmployeeCI,
+                ListLaborCosts = costApprovalDto.ListLaborCosts,
+                Reviewed = costApprovalDto.Reviewed,
+            };
+
             await _service.UpdateAsync(id, costApproval);
             return NoContent();
         }
