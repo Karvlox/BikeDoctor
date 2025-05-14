@@ -18,9 +18,7 @@ public class SparePartsService : GenericService<SpareParts, Guid>, ISparePartsSe
 
     public override async Task UpdateAsync(Guid id, SpareParts spareParts)
     {
-        ValidateSpareParts(spareParts);
-        if (id != spareParts.Id)
-            throw new ArgumentException("El ID no coincide.");
+        ValidateSpareParts(spareParts);        
         await base.UpdateAsync(id, spareParts);
     }
 

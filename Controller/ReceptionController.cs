@@ -3,6 +3,7 @@ namespace BikeDoctor.Controllers;
 using System;
 using System.Threading.Tasks;
 using BikeDoctor.Models;
+using BikeDoctor.DTOs;
 using BikeDoctor.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,10 +57,22 @@ public class ReceptionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] Reception reception)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateReceptionDto receptionDto)
     {
         try
         {
+            var reception = new Reception
+            {
+                Id = id,
+                Date = receptionDto.Date,
+                ClientCI = receptionDto.ClientCI,
+                MotorcycleLicensePlate = receptionDto.MotorcycleLicensePlate,
+                EmployeeCI = receptionDto.EmployeeCI,
+                Reasons = receptionDto.Reasons,
+                Images = receptionDto.Images,
+                Reviewed = receptionDto.Reviewed,
+            };
+
             await _service.UpdateAsync(id, reception);
             return NoContent();
         }

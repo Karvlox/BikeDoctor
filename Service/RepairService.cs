@@ -19,8 +19,6 @@ public class RepairService : GenericService<Repair, Guid>, IRepairService
     public override async Task UpdateAsync(Guid id, Repair repair)
     {
         ValidateRepair(repair);
-        if (id != repair.Id)
-            throw new ArgumentException("El ID no coincide.");
         await base.UpdateAsync(id, repair);
     }
 

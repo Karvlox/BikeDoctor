@@ -1,10 +1,11 @@
 namespace BikeDoctor.Controllers;
 
-using BikeDoctor.Models;
-using BikeDoctor.Service;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using BikeDoctor.Models;
+using BikeDoctor.DTOs;
+using BikeDoctor.Service;
+using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -56,10 +57,21 @@ public class RepairController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] Repair repair)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateRepairDto repairDto)
     {
         try
         {
+            var repair = new Repair
+            {
+                Id = id,
+                Date = repairDto.Date,
+                ClientCI = repairDto.ClientCI,
+                MotorcycleLicensePlate = repairDto.MotorcycleLicensePlate,
+                EmployeeCI = repairDto.EmployeeCI,
+                ListReparations = repairDto.ListReparations,
+                Reviewed = repairDto.Reviewed,
+            };
+
             await _service.UpdateAsync(id, repair);
             return NoContent();
         }

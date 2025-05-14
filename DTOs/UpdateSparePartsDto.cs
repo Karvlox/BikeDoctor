@@ -1,8 +1,9 @@
-namespace BikeDoctor.Models;
+namespace BikeDoctor.DTOs;
 
-public class SpareParts
+using BikeDoctor.Models;
+
+public class UpdateSparePartsDto
 {
-    public Guid Id { get; set; }
     public DateTime Date { get; set; }
     public int ClientCI { get; set; }
     public string MotorcycleLicensePlate { get; set; }

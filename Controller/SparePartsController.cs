@@ -1,6 +1,7 @@
 namespace BikeDoctor.Controllers;
 
 using BikeDoctor.Models;
+using BikeDoctor.DTOs;
 using BikeDoctor.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -56,10 +57,21 @@ public class SparePartsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] SpareParts spareParts)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateSparePartsDto sparePartsDto)
     {
         try
         {
+            var spareParts = new SpareParts
+            {
+                Id = id,
+                Date = sparePartsDto.Date,
+                ClientCI = sparePartsDto.ClientCI,
+                MotorcycleLicensePlate = sparePartsDto.MotorcycleLicensePlate,
+                EmployeeCI = sparePartsDto.EmployeeCI,
+                ListSpareParts = sparePartsDto.ListSpareParts,
+                Reviewed = sparePartsDto.Reviewed
+            };
+
             await _service.UpdateAsync(id, spareParts);
             return NoContent();
         }

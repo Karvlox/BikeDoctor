@@ -19,8 +19,6 @@ public class CostApprovalService : GenericService<CostApproval, Guid>, ICostAppr
     public override async Task UpdateAsync(Guid id, CostApproval costApproval)
     {
         ValidateCostApproval(costApproval);
-        if (id != costApproval.Id)
-            throw new ArgumentException("El ID no coincide.");
         await base.UpdateAsync(id, costApproval);
     }
 

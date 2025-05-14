@@ -18,9 +18,7 @@ public class DeliveryService : GenericService<Delivery, Guid>, IDeliveryService
 
     public override async Task UpdateAsync(Guid id, Delivery delivery)
     {
-        ValidateDelivery(delivery);
-        if (id != delivery.Id)
-            throw new ArgumentException("El ID no coincide.");
+        ValidateDelivery(delivery);        
         await base.UpdateAsync(id, delivery);
     }
 

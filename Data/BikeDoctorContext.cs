@@ -1,5 +1,6 @@
 namespace BikeDoctor.Data;
 
+using System.Text.Json;
 using BikeDoctor.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,6 @@ public class BikeDoctorContext : DbContext
 
         // Motorcycle
         modelBuilder.Entity<Motorcycle>().HasKey(m => m.Id);
-
         modelBuilder
             .Entity<Motorcycle>()
             .HasOne(m => m.Client)
@@ -56,70 +56,73 @@ public class BikeDoctorContext : DbContext
         modelBuilder.Entity<Diagnosis>().HasKey(d => d.Id);
         modelBuilder
             .Entity<Diagnosis>()
-            .OwnsMany(
-                d => d.ListDiagnostics,
-                a =>
-                {
-                    a.WithOwner().HasForeignKey("DiagnosisId");
-                    a.Property<int>("Id");
-                    a.HasKey("Id");
-                }
+            .Property(d => d.ListDiagnostics)
+            .HasColumnType("jsonb")
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v =>
+                    JsonSerializer.Deserialize<ICollection<Diagnostic>>(
+                        v,
+                        new JsonSerializerOptions()
+                    ) ?? new List<Diagnostic>()
             );
 
         // SpareParts
         modelBuilder.Entity<SpareParts>().HasKey(s => s.Id);
         modelBuilder
             .Entity<SpareParts>()
-            .OwnsMany(
-                s => s.ListSpareParts,
-                a =>
-                {
-                    a.WithOwner().HasForeignKey("SparePartsId");
-                    a.Property<int>("Id");
-                    a.HasKey("Id");
-                }
+            .Property(s => s.ListSpareParts)
+            .HasColumnType("jsonb")
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v =>
+                    JsonSerializer.Deserialize<ICollection<SparePart>>(
+                        v,
+                        new JsonSerializerOptions()
+                    ) ?? new List<SparePart>()
             );
 
         // CostApproval
         modelBuilder.Entity<CostApproval>().HasKey(ca => ca.Id);
         modelBuilder
             .Entity<CostApproval>()
-            .OwnsMany(
-                ca => ca.ListLaborCosts,
-                a =>
-                {
-                    a.WithOwner().HasForeignKey("CostApprovalId");
-                    a.Property<int>("Id");
-                    a.HasKey("Id");
-                }
+            .Property(ca => ca.ListLaborCosts)
+            .HasColumnType("jsonb")
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v =>
+                    JsonSerializer.Deserialize<ICollection<LaborCost>>(
+                        v,
+                        new JsonSerializerOptions()
+                    ) ?? new List<LaborCost>()
             );
 
         // Repair
         modelBuilder.Entity<Repair>().HasKey(r => r.Id);
         modelBuilder
             .Entity<Repair>()
-            .OwnsMany(
-                r => r.ListReparations,
-                a =>
-                {
-                    a.WithOwner().HasForeignKey("RepairId");
-                    a.Property<int>("Id");
-                    a.HasKey("Id");
-                }
+            .Property(r => r.ListReparations)
+            .HasColumnType("jsonb")
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v =>
+                    JsonSerializer.Deserialize<ICollection<Reparation>>(
+                        v,
+                        new JsonSerializerOptions()
+                    ) ?? new List<Reparation>()
             );
 
         // QualityControl
         modelBuilder.Entity<QualityControl>().HasKey(q => q.Id);
         modelBuilder
             .Entity<QualityControl>()
-            .OwnsMany(
-                q => q.ListControls,
-                a =>
-                {
-                    a.WithOwner().HasForeignKey("QualityControlId");
-                    a.Property<int>("Id");
-                    a.HasKey("Id");
-                }
+            .Property(q => q.ListControls)
+            .HasColumnType("jsonb")
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v =>
+                    JsonSerializer.Deserialize<ICollection<Control>>(v, new JsonSerializerOptions())
+                    ?? new List<Control>()
             );
 
         // Delivery
@@ -127,31 +130,38 @@ public class BikeDoctorContext : DbContext
 
         // FlowAttention
         modelBuilder.Entity<FlowAttention>().HasKey(fa => fa.Id);
-        modelBuilder.Entity<FlowAttention>()
+        modelBuilder
+            .Entity<FlowAttention>()
             .HasOne<Reception>()
             .WithMany()
             .HasForeignKey(fa => fa.ReceptionID);
-        modelBuilder.Entity<FlowAttention>()
+        modelBuilder
+            .Entity<FlowAttention>()
             .HasOne<Diagnosis>()
             .WithMany()
             .HasForeignKey(fa => fa.DiagnosisID);
-        modelBuilder.Entity<FlowAttention>()
+        modelBuilder
+            .Entity<FlowAttention>()
             .HasOne<SpareParts>()
             .WithMany()
             .HasForeignKey(fa => fa.SparePartsID);
-        modelBuilder.Entity<FlowAttention>()
+        modelBuilder
+            .Entity<FlowAttention>()
             .HasOne<CostApproval>()
             .WithMany()
             .HasForeignKey(fa => fa.CostApprovalID);
-        modelBuilder.Entity<FlowAttention>()
+        modelBuilder
+            .Entity<FlowAttention>()
             .HasOne<Repair>()
             .WithMany()
             .HasForeignKey(fa => fa.RepairID);
-        modelBuilder.Entity<FlowAttention>()
+        modelBuilder
+            .Entity<FlowAttention>()
             .HasOne<QualityControl>()
             .WithMany()
             .HasForeignKey(fa => fa.QualityControlID);
-        modelBuilder.Entity<FlowAttention>()
+        modelBuilder
+            .Entity<FlowAttention>()
             .HasOne<Delivery>()
             .WithMany()
             .HasForeignKey(fa => fa.DeliveryID);
