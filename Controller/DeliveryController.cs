@@ -98,4 +98,26 @@ public class DeliveryController : ControllerBase
             return NotFound(ex.Message);
         }
     }
+
+    [HttpPatch("{id}/reviewed")]
+    public async Task<IActionResult> UpdateReviewedStatus(Guid id, [FromQuery] bool reviewed)
+    {
+        try
+        {
+            var delivery = await _service.GetByIdAsync(id);
+            delivery.Reviewed = reviewed;
+
+            await _service.UpdateAsync(id, delivery);
+
+            return NoContent();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error updating Reviewed status: {ex.Message}");
+        }
+    }
 }

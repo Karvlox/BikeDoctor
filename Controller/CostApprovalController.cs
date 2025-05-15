@@ -1,11 +1,11 @@
 namespace BikeDoctor.Controllers;
 
-using BikeDoctor.Models;
-using BikeDoctor.DTOs;
-using BikeDoctor.Service;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using BikeDoctor.DTOs;
+using BikeDoctor.Models;
+using BikeDoctor.Service;
+using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -57,7 +57,10 @@ public class CostApprovalController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCostApprovalDto costApprovalDto)
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateCostApprovalDto costApprovalDto
+    )
     {
         try
         {
@@ -96,6 +99,28 @@ public class CostApprovalController : ControllerBase
         catch (KeyNotFoundException ex)
         {
             return NotFound(ex.Message);
+        }
+    }
+
+    [HttpPatch("{id}/reviewed")]
+    public async Task<IActionResult> UpdateReviewedStatus(Guid id, [FromQuery] bool reviewed)
+    {
+        try
+        {
+            var costApproval = await _service.GetByIdAsync(id);
+            costApproval.Reviewed = reviewed;
+
+            await _service.UpdateAsync(id, costApproval);
+
+            return NoContent();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error updating Reviewed status: {ex.Message}");
         }
     }
 }

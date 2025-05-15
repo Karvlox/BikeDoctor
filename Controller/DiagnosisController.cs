@@ -98,4 +98,26 @@ public class DiagnosisController : ControllerBase
             return NotFound(ex.Message);
         }
     }
+
+    [HttpPatch("{id}/reviewed")]
+    public async Task<IActionResult> UpdateReviewedStatus(Guid id, [FromQuery] bool reviewed)
+    {
+        try
+        {
+            var diagnosis = await _service.GetByIdAsync(id);
+            diagnosis.Reviewed = reviewed;
+
+            await _service.UpdateAsync(id, diagnosis);
+
+            return NoContent();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error updating Reviewed status: {ex.Message}");
+        }
+    }
 }

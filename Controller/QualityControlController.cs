@@ -2,8 +2,8 @@ namespace BikeDoctor.Controllers;
 
 using System;
 using System.Threading.Tasks;
-using BikeDoctor.Models;
 using BikeDoctor.DTOs;
+using BikeDoctor.Models;
 using BikeDoctor.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -99,6 +99,28 @@ public class QualityControlController : ControllerBase
         catch (KeyNotFoundException ex)
         {
             return NotFound(ex.Message);
+        }
+    }
+
+    [HttpPatch("{id}/reviewed")]
+    public async Task<IActionResult> UpdateReviewedStatus(Guid id, [FromQuery] bool reviewed)
+    {
+        try
+        {
+            var qualityControl = await _service.GetByIdAsync(id);
+            qualityControl.Reviewed = reviewed;
+
+            await _service.UpdateAsync(id, qualityControl);
+
+            return NoContent();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error updating Reviewed status: {ex.Message}");
         }
     }
 }
