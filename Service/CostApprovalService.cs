@@ -30,7 +30,5 @@ public class CostApprovalService : GenericService<CostApproval, Guid>, ICostAppr
             throw new ArgumentException("La placa de la motocicleta es obligatoria.");
         if (costApproval.EmployeeCI <= 0)
             throw new ArgumentException("El CI del empleado es obligatorio.");
-        if (costApproval.ListLaborCosts == null || !costApproval.ListLaborCosts.Any())
-            throw new ArgumentException("La lista de costos de mano de obra no puede estar vacía.");
     }
 }

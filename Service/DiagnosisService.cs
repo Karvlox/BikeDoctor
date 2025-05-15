@@ -30,7 +30,5 @@ public class DiagnosisService : GenericService<Diagnosis, Guid>, IDiagnosisServi
             throw new ArgumentException("La placa de la motocicleta es obligatoria.");
         if (diagnosis.EmployeeCI <= 0)
             throw new ArgumentException("El CI del empleado es obligatorio.");
-        if (diagnosis.ListDiagnostics == null || !diagnosis.ListDiagnostics.Any())
-            throw new ArgumentException("La lista de diagnósticos no puede estar vacía.");
     }
 }

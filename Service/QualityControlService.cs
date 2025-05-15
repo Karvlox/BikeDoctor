@@ -30,7 +30,5 @@ public class QualityControlService : GenericService<QualityControl, Guid>, IQual
             throw new ArgumentException("La placa de la motocicleta es obligatoria.");
         if (qualityControl.EmployeeCI <= 0)
             throw new ArgumentException("El CI del empleado es obligatorio.");
-        if (qualityControl.ListControls == null || !qualityControl.ListControls.Any())
-            throw new ArgumentException("La lista de controles no puede estar vacía.");
     }
 }

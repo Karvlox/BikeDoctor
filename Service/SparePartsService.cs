@@ -30,7 +30,5 @@ public class SparePartsService : GenericService<SpareParts, Guid>, ISparePartsSe
             throw new ArgumentException("La placa de la motocicleta es obligatoria.");
         if (spareParts.EmployeeCI <= 0)
             throw new ArgumentException("El CI del empleado es obligatorio.");
-        if (spareParts.ListSpareParts == null || !spareParts.ListSpareParts.Any())
-            throw new ArgumentException("La lista de repuestos no puede estar vacía.");
     }
 }

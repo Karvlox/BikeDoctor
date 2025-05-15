@@ -30,7 +30,5 @@ public class RepairService : GenericService<Repair, Guid>, IRepairService
             throw new ArgumentException("La placa de la motocicleta es obligatoria.");
         if (repair.EmployeeCI <= 0)
             throw new ArgumentException("El CI del empleado es obligatorio.");
-        if (repair.ListReparations == null || !repair.ListReparations.Any())
-            throw new ArgumentException("La lista de reparaciones no puede estar vacía.");
     }
 }
