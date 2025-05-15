@@ -11,13 +11,4 @@ public class DeliveryRepository : GenericRepository<Delivery, Guid>, IDeliveryRe
     public DeliveryRepository(BikeDoctorContext context) : base(context)
     {
     }
-
-    public override async Task<Delivery> GetByIdAsync(Guid id)
-    {
-        return await _context.Set<Delivery>()
-            .Include(d => d.Client)
-            .Include(d => d.Motorcycle)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(d => d.Id == id);
-    }
 }

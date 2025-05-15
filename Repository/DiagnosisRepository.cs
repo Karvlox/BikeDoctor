@@ -11,12 +11,4 @@ public class DiagnosisRepository : GenericRepository<Diagnosis, Guid>, IDiagnosi
     public DiagnosisRepository(BikeDoctorContext context) : base(context)
     {
     }
-
-    public override async Task<Diagnosis> GetByIdAsync(Guid id)
-    {
-        return await _context.Set<Diagnosis>()
-            .Include(d => d.ListDiagnostics)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(d => d.Id == id);
-    }
 }

@@ -11,14 +11,4 @@ public class RepairRepository : GenericRepository<Repair, Guid>, IRepairReposito
     public RepairRepository(BikeDoctorContext context) : base(context)
     {
     }
-
-    public override async Task<Repair> GetByIdAsync(Guid id)
-    {
-        return await _context.Set<Repair>()
-            .Include(r => r.ListReparations)
-            .Include(r => r.Client)
-            .Include(r => r.Motorcycle)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(r => r.Id == id);
-    }
 }

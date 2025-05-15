@@ -11,12 +11,4 @@ public class SparePartsRepository : GenericRepository<SpareParts, Guid>, ISpareP
     public SparePartsRepository(BikeDoctorContext context) : base(context)
     {
     }
-
-    public override async Task<SpareParts> GetByIdAsync(Guid id)
-    {
-        return await _context.Set<SpareParts>()
-            .Include(s => s.ListSpareParts)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(s => s.Id == id);
-    }
 }

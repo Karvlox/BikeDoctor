@@ -11,14 +11,4 @@ public class QualityControlRepository : GenericRepository<QualityControl, Guid>,
     public QualityControlRepository(BikeDoctorContext context) : base(context)
     {
     }
-
-    public override async Task<QualityControl> GetByIdAsync(Guid id)
-    {
-        return await _context.Set<QualityControl>()
-            .Include(q => q.ListControls)
-            .Include(q => q.Client)
-            .Include(q => q.Motorcycle)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(q => q.Id == id);
-    }
 }
