@@ -120,4 +120,26 @@ public class DeliveryController : ControllerBase
             return StatusCode(500, $"Error updating Reviewed status: {ex.Message}");
         }
     }
+
+    [HttpPatch("{id}/surveyCompleted")]
+    public async Task<IActionResult> UpdateSurveyCompletedStatus(Guid id, [FromQuery] bool surveyCompleted)
+    {
+        try
+        {
+            var delivery = await _service.GetByIdAsync(id);
+            delivery.SurveyCompleted = surveyCompleted;
+
+            await _service.UpdateAsync(id, delivery);
+
+            return NoContent();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error updating Survey Completed status: {ex.Message}");
+        }
+    }
 }
