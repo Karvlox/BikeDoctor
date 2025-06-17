@@ -6,6 +6,7 @@ using BikeDoctor.DTOs;
 using BikeDoctor.Models;
 using BikeDoctor.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -19,6 +20,7 @@ public class DiagnosisController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Diagnosis>>> GetAll(
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10
@@ -29,6 +31,7 @@ public class DiagnosisController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<Diagnosis>> GetById(Guid id)
     {
         try
@@ -43,6 +46,7 @@ public class DiagnosisController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<ActionResult<Diagnosis>> Create([FromBody] Diagnosis diagnosis)
     {
         try
@@ -57,6 +61,7 @@ public class DiagnosisController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateDiagnosisDto diagnosisDto)
     {
         try
@@ -86,6 +91,7 @@ public class DiagnosisController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> Delete(Guid id)
     {
         try
@@ -100,6 +106,7 @@ public class DiagnosisController : ControllerBase
     }
 
     [HttpPatch("{id}/reviewed")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<IActionResult> UpdateReviewedStatus(Guid id, [FromQuery] bool reviewed)
     {
         try

@@ -2,9 +2,10 @@ namespace BikeDoctor.Controllers;
 
 using System;
 using System.Threading.Tasks;
-using BikeDoctor.Models;
 using BikeDoctor.DTOs;
+using BikeDoctor.Models;
 using BikeDoctor.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
@@ -19,6 +20,7 @@ public class DeliveryController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Delivery>>> GetAll(
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10
@@ -29,6 +31,7 @@ public class DeliveryController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<Delivery>> GetById(Guid id)
     {
         try
@@ -43,6 +46,7 @@ public class DeliveryController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<ActionResult<Delivery>> Create([FromBody] Delivery delivery)
     {
         try
@@ -57,6 +61,7 @@ public class DeliveryController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateDeliveryDto deliveryDto)
     {
         try
@@ -86,6 +91,7 @@ public class DeliveryController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> Delete(Guid id)
     {
         try
@@ -100,6 +106,7 @@ public class DeliveryController : ControllerBase
     }
 
     [HttpPatch("{id}/reviewed")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<IActionResult> UpdateReviewedStatus(Guid id, [FromQuery] bool reviewed)
     {
         try
@@ -122,7 +129,11 @@ public class DeliveryController : ControllerBase
     }
 
     [HttpPatch("{id}/surveyCompleted")]
-    public async Task<IActionResult> UpdateSurveyCompletedStatus(Guid id, [FromQuery] bool surveyCompleted)
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
+    public async Task<IActionResult> UpdateSurveyCompletedStatus(
+        Guid id,
+        [FromQuery] bool surveyCompleted
+    )
     {
         try
         {

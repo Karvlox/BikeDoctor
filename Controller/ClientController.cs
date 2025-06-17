@@ -4,6 +4,7 @@ using BikeDoctor.Models;
 using BikeDoctor.Service;
 using BikeDoctor.Validations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -17,6 +18,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Client>>> GetClients()
     {
         var clients = await _clientService.GetAllClientsAsync();
@@ -24,6 +26,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet("{ci}")]
+    [Authorize]
     public async Task<ActionResult<Client>> GetClientByCI(int ci)
     {
         var client = await _clientService.GetClientByCIAsync(ci);
@@ -35,6 +38,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet("phone/{phoneNumber}")]
+    [Authorize]
     public async Task<ActionResult<Client>> GetClientByPhone(int phoneNumber)
     {
         var client = await _clientService.GetClientByPhoneAsync(phoneNumber);
@@ -46,6 +50,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<ActionResult<Client>> CreateClient([FromBody] Client client)
     {
         try
@@ -60,6 +65,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpPut("{ci}")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<IActionResult> UpdateClient(int ci, [FromBody] Client client)
     {
         try
@@ -78,6 +84,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpDelete("{ci}")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> DeleteClient(int ci)
     {
         await _clientService.DeleteClientAsync(ci);
