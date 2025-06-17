@@ -6,6 +6,7 @@ using BikeDoctor.Models;
 using BikeDoctor.DTOs;
 using BikeDoctor.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -19,6 +20,7 @@ public class ReceptionController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Reception>>> GetAll(
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10
@@ -29,6 +31,7 @@ public class ReceptionController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<Reception>> GetById(Guid id)
     {
         try
@@ -43,6 +46,7 @@ public class ReceptionController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<ActionResult<Reception>> Create([FromBody] Reception reception)
     {
         try
@@ -57,6 +61,7 @@ public class ReceptionController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateReceptionDto receptionDto)
     {
         try
@@ -87,6 +92,7 @@ public class ReceptionController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> Delete(Guid id)
     {
         try
@@ -101,6 +107,7 @@ public class ReceptionController : ControllerBase
     }
 
     [HttpPatch("{id}/reviewed")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<IActionResult> UpdateReviewedStatus(Guid id, [FromQuery] bool reviewed)
     {
         try

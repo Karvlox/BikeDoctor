@@ -1,6 +1,7 @@
 using BikeDoctor.Models;
 using BikeDoctor.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BikeDoctor.Controller;
 
@@ -17,6 +18,7 @@ public class MotorcycleController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Motorcycle>>> GetMotorcycles()
     {
         var motorcycles = await _motorcycleService.GetAllMotorcyclesAsync();
@@ -24,6 +26,7 @@ public class MotorcycleController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<Motorcycle>> GetMotorcycleById(Guid id)
     {
         var motorcycle = await _motorcycleService.GetMotorcycleByIdAsync(id);
@@ -35,6 +38,7 @@ public class MotorcycleController : ControllerBase
     }
 
     [HttpGet("licensePlate/{licensePlate}")]
+    [Authorize]
     public async Task<ActionResult<Motorcycle>> GetMotorcycleByLicensePlateNumber(string licensePlate)
     {
         var motorcycle = await _motorcycleService.GetMotorcycleByLicensePlateNumberAsync(licensePlate);
@@ -46,6 +50,7 @@ public class MotorcycleController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<ActionResult<Motorcycle>> CreateMotocycle([FromBody] Motorcycle motorcycle)
     {
         try
@@ -60,6 +65,8 @@ public class MotorcycleController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
+
     public async Task<IActionResult> UpdateMotorcycle(Guid id, [FromBody] Motorcycle motorcycle)
     {
         try
@@ -78,6 +85,7 @@ public class MotorcycleController : ControllerBase
     }
 
     [HttpPut("licensePlate/{licensePlate}")]
+    [Authorize(Roles = "ADMIN,EMPLEADO")]
     public async Task<IActionResult> UpdateMotorcycleByLicensePlateNumber(string licensePlate, [FromBody] Motorcycle motorcycle)
     {
         try
@@ -104,6 +112,7 @@ public class MotorcycleController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteMotorcycle(Guid id)
     {
         await _motorcycleService.DeleteMotorcycleAsync(id);

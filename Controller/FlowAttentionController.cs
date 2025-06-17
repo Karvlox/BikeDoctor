@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using BikeDoctor.Models;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BikeDoctor.Controllers
 {
@@ -18,6 +19,7 @@ namespace BikeDoctor.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
         {
             var flowAttentions = await _flowAttentionService.GetAllAsync(pageNumber, pageSize);
@@ -25,6 +27,7 @@ namespace BikeDoctor.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
             try
@@ -39,6 +42,7 @@ namespace BikeDoctor.Controllers
         }
 
         [HttpGet("by-client-license")]
+        [Authorize]
         public async Task<IActionResult> GetByClientAndLicense(int clientCI, string licensePlate)
         {
             try
@@ -53,6 +57,7 @@ namespace BikeDoctor.Controllers
         }
 
         [HttpGet("by-client")]
+        [Authorize]
         public async Task<IActionResult> GetByClientCI(int clientCI)
         {
             try
@@ -67,6 +72,7 @@ namespace BikeDoctor.Controllers
         }
 
         [HttpGet("by-employee")]
+        [Authorize]
         public async Task<IActionResult> GetByEmployeeCI(int employeeCI)
         {
             try
@@ -81,6 +87,7 @@ namespace BikeDoctor.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN,EMPLEADO")]
         public async Task<IActionResult> Add(FlowAttention flowAttention)
         {
             if (flowAttention == null)
@@ -99,6 +106,7 @@ namespace BikeDoctor.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "ADMIN,EMPLEADO")]
         public async Task<IActionResult> Update(Guid id, FlowAttention flowAttention)
         {
             if (flowAttention == null || id != flowAttention.Id)
@@ -121,6 +129,7 @@ namespace BikeDoctor.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
