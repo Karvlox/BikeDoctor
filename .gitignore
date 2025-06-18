@@ -1,0 +1,51 @@
+# Build results
+bin/
+obj/
+[Mm]igrations/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Visual Studio / VS Code
+.vscode/
+.vs/
+
+# Rider IDE
+.idea/
+
+# Logs
+*.log
+
+# Dotnet artifacts
+*.dbmdl
+*.bak
+*.Backup
+*.pdb
+
+# ASP.NET secrets
+secrets.json
+
+# EF Core tools
+*.cache
+*.mdf
+*.ldf
+
+# Docker
+*.container
+docker-compose.override.yml
+
+# Others
+*.swp
+*.tmp
+*.nupkg
+*.publishsettings
+
+# Config overrides
+appsettings.Development.json
