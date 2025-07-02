@@ -1,13 +1,23 @@
 namespace BikeDoctor.Service;
 
-using System.Threading.Tasks;
 using BikeDoctor.Models;
 using BikeDoctor.Repository;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ReceptionService : GenericService<Reception, Guid>, IReceptionService
 {
     public ReceptionService(IReceptionRepository repository)
         : base(repository) { }
+
+    public async Task<IEnumerable<Reception>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await ((IReceptionRepository)_repository).GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+    }
 
     public override async Task AddAsync(Reception reception)
     {

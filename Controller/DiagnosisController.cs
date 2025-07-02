@@ -26,8 +26,20 @@ public class DiagnosisController : ControllerBase
         [FromQuery] int pageSize = 10
     )
     {
-        var receptions = await _service.GetAllAsync(pageNumber, pageSize);
-        return Ok(receptions);
+        var diagnosis = await _service.GetAllAsync(pageNumber, pageSize);
+        return Ok(diagnosis);
+    }
+
+    [HttpGet("by-employee/{employeeCI}")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<Diagnosis>>> GetAllByEmployeeCI(
+        int employeeCI,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10
+    )
+    {
+        var diagnosis = await _service.GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+        return Ok(diagnosis);
     }
 
     [HttpGet("{id}")]

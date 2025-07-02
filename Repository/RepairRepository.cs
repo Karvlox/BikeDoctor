@@ -11,4 +11,18 @@ public class RepairRepository : GenericRepository<Repair, Guid>, IRepairReposito
     public RepairRepository(BikeDoctorContext context) : base(context)
     {
     }
+
+    public async Task<IEnumerable<Repair>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await _context.Repairs
+            .AsNoTracking()
+            .Where(r => r.EmployeeCI == employeeCI)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
 }

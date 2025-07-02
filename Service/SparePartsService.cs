@@ -10,6 +10,15 @@ public class SparePartsService : GenericService<SpareParts, Guid>, ISparePartsSe
     {
     }
 
+    public async Task<IEnumerable<SpareParts>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await ((ISparePartsRepository)_repository).GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+    }
+
     public override async Task AddAsync(SpareParts spareParts)
     {
         ValidateSpareParts(spareParts);

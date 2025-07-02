@@ -11,4 +11,18 @@ public class DeliveryRepository : GenericRepository<Delivery, Guid>, IDeliveryRe
     public DeliveryRepository(BikeDoctorContext context) : base(context)
     {
     }
+
+    public async Task<IEnumerable<Delivery>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await _context.Deliveries
+            .AsNoTracking()
+            .Where(r => r.EmployeeCI == employeeCI)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
 }

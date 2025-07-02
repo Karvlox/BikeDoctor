@@ -10,6 +10,15 @@ public class DeliveryService : GenericService<Delivery, Guid>, IDeliveryService
     {
     }
 
+    public async Task<IEnumerable<Delivery>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await ((IDeliveryRepository)_repository).GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+    }
+
     public override async Task AddAsync(Delivery delivery)
     {
         ValidateDelivery(delivery);

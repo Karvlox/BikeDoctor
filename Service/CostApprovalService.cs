@@ -10,6 +10,15 @@ public class CostApprovalService : GenericService<CostApproval, Guid>, ICostAppr
     {
     }
 
+    public async Task<IEnumerable<CostApproval>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await ((ICostApprovalRepository)_repository).GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+    }
+
     public override async Task AddAsync(CostApproval costApproval)
     {
         ValidateCostApproval(costApproval);

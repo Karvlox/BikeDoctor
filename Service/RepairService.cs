@@ -10,6 +10,15 @@ public class RepairService : GenericService<Repair, Guid>, IRepairService
     {
     }
 
+    public async Task<IEnumerable<Repair>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await ((IRepairRepository)_repository).GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+    }
+
     public override async Task AddAsync(Repair repair)
     {
         ValidateRepair(repair);

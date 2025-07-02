@@ -26,9 +26,22 @@ public class SparePartsController : ControllerBase
         [FromQuery] int pageSize = 10
     )
     {
-        var receptions = await _service.GetAllAsync(pageNumber, pageSize);
-        return Ok(receptions);
+        var spareParts = await _service.GetAllAsync(pageNumber, pageSize);
+        return Ok(spareParts);
     }
+
+    [HttpGet("by-employee/{employeeCI}")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<SpareParts>>> GetAllByEmployeeCI(
+        int employeeCI,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10
+    )
+    {
+        var spareParts = await _service.GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+        return Ok(spareParts);
+    }
+
 
     [HttpGet("{id}")]
     [Authorize]

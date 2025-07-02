@@ -10,6 +10,15 @@ public class QualityControlService : GenericService<QualityControl, Guid>, IQual
     {
     }
 
+    public async Task<IEnumerable<QualityControl>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await ((IQualityControlRepository)_repository).GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+    }
+
     public override async Task AddAsync(QualityControl qualityControl)
     {
         ValidateQualityControl(qualityControl);

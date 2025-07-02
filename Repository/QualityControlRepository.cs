@@ -11,4 +11,18 @@ public class QualityControlRepository : GenericRepository<QualityControl, Guid>,
     public QualityControlRepository(BikeDoctorContext context) : base(context)
     {
     }
+
+    public async Task<IEnumerable<QualityControl>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await _context.QualityControls
+            .AsNoTracking()
+            .Where(r => r.EmployeeCI == employeeCI)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
 }

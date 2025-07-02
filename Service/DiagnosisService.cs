@@ -10,6 +10,15 @@ public class DiagnosisService : GenericService<Diagnosis, Guid>, IDiagnosisServi
     {
     }
 
+    public async Task<IEnumerable<Diagnosis>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await ((IDiagnosisRepository)_repository).GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+    }
+
     public override async Task AddAsync(Diagnosis diagnosis)
     {
         ValidateDiagnosis(diagnosis);

@@ -11,4 +11,18 @@ public class SparePartsRepository : GenericRepository<SpareParts, Guid>, ISpareP
     public SparePartsRepository(BikeDoctorContext context) : base(context)
     {
     }
+
+    public async Task<IEnumerable<SpareParts>> GetAllByEmployeeCIAsync(
+        int employeeCI,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
+    {
+        return await _context.SpareParts
+            .AsNoTracking()
+            .Where(r => r.EmployeeCI == employeeCI)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
 }

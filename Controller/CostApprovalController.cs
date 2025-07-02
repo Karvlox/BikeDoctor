@@ -30,6 +30,18 @@ public class CostApprovalController : ControllerBase
         return Ok(receptions);
     }
 
+    [HttpGet("by-employee/{employeeCI}")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<CostApproval>>> GetAllByEmployeeCI(
+        int employeeCI,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10
+    )
+    {
+        var receptions = await _service.GetAllByEmployeeCIAsync(employeeCI, pageNumber, pageSize);
+        return Ok(receptions);
+    }
+
     [HttpGet("{id}")]
     [Authorize]
     public async Task<ActionResult<CostApproval>> GetById(Guid id)
