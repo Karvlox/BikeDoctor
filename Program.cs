@@ -49,6 +49,11 @@ builder.Services.AddScoped<IDeliveryService, DeliveryService>();
 builder.Services.AddScoped<IFlowAttentionRepository, FlowAttentionRepository>();
 builder.Services.AddScoped<IFlowAttentionService, FlowAttentionService>();
 
+// Configuracion de Repositories y Services de Encuesta
+builder.Services.AddHttpClient<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+
+
 // Configurar autenticación JWT
 builder.Services.AddAuthentication(options =>
 {
