@@ -1,6 +1,7 @@
 using BikeDoctor.Models;
 using BikeDoctor.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BikeDoctor.Controller;
 
@@ -16,6 +17,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "ADMIN")]
     public async Task<ActionResult<IEnumerable<FeedbackResponse>>> GetAllFeedback()
     {
         var feedback = await _feedbackService.GetAllFeedbackAsync();
@@ -23,6 +25,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet("{phoneNumber}")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<ActionResult<IEnumerable<FeedbackResponse>>> GetFeedbackByPhone(int phoneNumber)
     {
         var feedback = await _feedbackService.GetFeedbackByPhoneAsync(phoneNumber);
@@ -32,6 +35,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet("metrics")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetMetrics()
     {
         var metrics = await _feedbackService.GetMetricsAsync();
@@ -39,6 +43,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet("metrics/phrases")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetPhraseMetrics()
     {
         var metrics = await _feedbackService.GetPhraseMetricsAsync();
@@ -46,6 +51,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet("metrics/words")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetWordMetrics()
     {
         var metrics = await _feedbackService.GetWordMetricsAsync();
