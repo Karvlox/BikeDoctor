@@ -165,4 +165,12 @@ public class DeliveryController : ControllerBase
             return StatusCode(500, $"Error updating Survey Completed status: {ex.Message}");
         }
     }
+
+    [HttpGet("metrics")]
+    [Authorize]
+    public async Task<ActionResult> GetMetrics()
+    {
+        var metrics = await _service.GetDeliveryMetricsAsync();
+        return Ok(metrics);
+    }
 }

@@ -2,11 +2,11 @@ namespace BikeDoctor.Controllers;
 
 using System;
 using System.Threading.Tasks;
-using BikeDoctor.Models;
 using BikeDoctor.DTOs;
+using BikeDoctor.Models;
 using BikeDoctor.Service;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -139,5 +139,21 @@ public class ReceptionController : ControllerBase
         {
             return StatusCode(500, $"Error updating Reviewed status: {ex.Message}");
         }
+    }
+
+    [HttpGet("metrics/reasons/phrases")]
+    [Authorize(Roles = "ADMIN")]
+    public async Task<IActionResult> GetReasonsMetricsByPhrase()
+    {
+        var metrics = await _service.GetReasonsMetricsAsync(true);
+        return Ok(metrics);
+    }
+
+    [HttpGet("metrics/reasons/words")]
+    [Authorize(Roles = "ADMIN")]
+    public async Task<IActionResult> GetReasonsMetricsByWord()
+    {
+        var metrics = await _service.GetReasonsMetricsAsync(false);
+        return Ok(metrics);
     }
 }
