@@ -75,7 +75,7 @@ namespace BikeDoctor.Service
             await _repository.AddAsync(flowAttention);
         }
 
-        public async Task UpdateAsync(FlowAttention flowAttention)
+        public async Task UpdateAsync(Guid id, FlowAttention flowAttention)
         {
             if (flowAttention == null)
             {

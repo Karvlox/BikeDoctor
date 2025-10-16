@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BikeDoctor.Models;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using BikeDoctor.DTOs;
 
 namespace BikeDoctor.Controllers
 {
@@ -107,24 +108,31 @@ namespace BikeDoctor.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "ADMIN,EMPLEADO")]
-        public async Task<IActionResult> Update(Guid id, FlowAttention flowAttention)
+        public async Task<IActionResult> Update(Guid id, UpdateFlowAttentionDto flowAttentionDto)
         {
-            if (flowAttention == null || id != flowAttention.Id)
-            {
-                return BadRequest(new { message = "Los datos proporcionados no son válidos." });
-            }
             try
             {
-                await _flowAttentionService.UpdateAsync(flowAttention);
+                var flowAttention = new FlowAttention
+                {
+                    Id = id,
+                    ClientCI = flowAttentionDto.ClientCI,
+                    EmployeeCI = flowAttentionDto.EmployeeCI,
+                    ReceptionID = flowAttentionDto.ReceptionID,
+                    DiagnosisID = flowAttentionDto.DiagnosisID,
+                    SparePartsID = flowAttentionDto.SparePartsID,
+                    CostApprovalID = flowAttentionDto.CostApprovalID,
+                    RepairID = flowAttentionDto.RepairID,
+                    QualityControlID = flowAttentionDto.QualityControlID,
+                    DeliveryID = flowAttentionDto.DeliveryID,
+                };
+
+                await _flowAttentionService.UpdateAsync(id, flowAttention);
                 return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
+
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Error al actualizar el flujo de atención.", details = ex.Message });
+                return StatusCode(500);
             }
         }
 

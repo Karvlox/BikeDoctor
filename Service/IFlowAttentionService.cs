@@ -12,7 +12,7 @@ namespace BikeDoctor.Service
         Task<FlowAttention> GetByClientCIAsync(int clientCI);
         Task<FlowAttention> GetByEmployeeCIAsync(int employeeCI);
         Task AddAsync(FlowAttention flowAttention);
-        Task UpdateAsync(FlowAttention flowAttention);
+        Task UpdateAsync(Guid id, FlowAttention flowAttention);
         Task DeleteAsync(Guid id);
     }
 }

@@ -15,8 +15,8 @@ namespace ChatBotPOC.Controllers
         public async Task<IActionResult> EnviaAsync([FromBody] MensajeRequest mensajeRequest)
         {
             string token =
-                "EAAUghei0XtMBPSIp2MYDa7jHM5kchZBr05bTHB0gMhMfYbh4CEaBiAeEIbT609clET7WfyPp91ws0GjIw7MezZCTaJd3LVXuD7jCxn35MUkNRWdqYU03HJU2D5ZC7wf19cLlWGHHjwxFa3oa4QXM4s6CV9CfSpvt6gLrLZB6FUCIae7JkMC55ZANP2jZAlTupo";
-            string idTelefono = "511685075369811";
+                "EAAUghei0XtMBPYAwKf4sOqnpRj3yRdqkPsMZBa97Ffb9YIzZAH25UaPWCNKd1ZCsbPxwnBQY8DgK9LUZAH5vdygfOGeSf4znHfTsZCEtYRKSYRPBs1kIVq7YU7zxyIOUUcdEWszzvQgl8vlzmtMHvwA0BfnPiNGYVSBUiZANMIxDvoRqoXU0xfXXBHADsBVG5LdQZDZD";
+            string idTelefono = "831591943365796";
 
             string telefono = "59173418089";
 
